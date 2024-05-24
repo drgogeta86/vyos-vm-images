@@ -40,12 +40,12 @@ jobs:
 
   ova:
     needs: [get_latest_release]
-    if: ${{ needs.get_latest_release.outputs.iso_url != '' }}
+    # if: ${{ needs.get_latest_release.outputs.iso_url != '' }}
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        cloud_init: ['true', 'false']
-        grub_console: ['kvm', 'serial']
+    # strategy:
+    #   matrix:
+    #     cloud_init: ['true', 'false']
+    #     grub_console: ['kvm', 'serial']
     steps:
       - uses: actions/checkout@v4
         with:
