@@ -42,6 +42,9 @@ jobs:
     needs: [get_latest_release]
     # if: ${{ needs.get_latest_release.outputs.iso_url != '' }}
     runs-on: ubuntu-latest
+    env:
+      OVFTOOL_VERSION: 4.6.0-21452615
+      OVFTOOL_INSTALLER: VMware-ovftool-${OVFTOOL_VERSION}-lin.x86_64.bundle
     # strategy:
     #   matrix:
     #     cloud_init: ['true', 'false']
@@ -51,10 +54,10 @@ jobs:
         with:
           ref: actions
       - run: pipx install --include-deps ansible
-      - run: OVFTOOL_VERSION=4.6.0-21452615  OVFTOOL_INSTALLER=VMware-ovftool-${OVFTOOL_VERSION}-lin.x86_64.bundle wget -q https://ovftool.ark-ict.nl/${OVFTOOL_INSTALLER}
-      - run: OVFTOOL_VERSION=4.6.0-21452615  OVFTOOL_INSTALLER=VMware-ovftool-${OVFTOOL_VERSION}-lin.x86_64.bundle sh ${OVFTOOL_INSTALLER} --eulas-agreed --required
-      - run: |
-          #ansible-playbook vmware.yml -e cloud_init=${{ matrix.cloud_init}} -e grub_console=${{ matrix.grub_console }} -e vyos_iso_url=${{ needs.get_latest_release.outputs.iso_url }}
+      - run: wget -q https://ovftool.ark-ict.nl/${OVFTOOL_INSTALLER}
+      - run: sh ${OVFTOOL_INSTALLER} --eulas-agreed --required
+      #ansible-playbook vmware.yml -e cloud_init=${{ matrix.cloud_init}} -e grub_console=${{ matrix.grub_console }} -e vyos_iso_url=${{ needs.get_latest_release.outputs.iso_url }}
+      - run: |   
           ansible-playbook vmware.yml -e cloud_init=false -e ovf_template=simple  -e vyos_iso_url=${{ needs.get_latest_release.outputs.iso_url }}
       # - uses: actions/upload-artifact@v3
       #   with:
