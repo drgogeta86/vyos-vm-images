@@ -133,7 +133,7 @@ jobs:
           artifactErrorsFailBuild: true
           artifacts: "*.ova,*.qcow2"
           name: ${{ needs.get_latest_release.outputs.latest_version }}
-          tag: ${{ needs.get_latest_release.outputs.latest_versio
+          tag: ${{ needs.get_latest_release.outputs.latest_version }}
 
 
       - run: aws configure set default.s3.max_concurrent_requests 3
