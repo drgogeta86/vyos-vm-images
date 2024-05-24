@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Get version from version.txt
         id: get_version
-        run: echo "version=$(cat $GITHUB_WORKSPACE/version.txt)" >> $GITHUB_OUTPUT
+        run: echo "version=$(cat $GITHUB_WORKSPACE/version.json |  jq '.[0].version )" >> $GITHUB_OUTPUT
       - name: Set iso url
         id: set_iso_url
         if: ${{ steps.get_version.outputs.version != steps.get_latest_release.outputs.result }}
