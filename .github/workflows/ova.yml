@@ -60,12 +60,12 @@ jobs:
       #ansible-playbook vmware.yml -e cloud_init=${{ matrix.cloud_init}} -e grub_console=${{ matrix.grub_console }} -e vyos_iso_url=${{ needs.get_latest_release.outputs.iso_url }}
       - run: |   
           ansible-playbook vmware.yml -e cloud_init=false -e ovf_template=simple  -e vyos_iso_url=${{ needs.get_latest_release.outputs.iso_url }}
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: images
-      #     path: build/*.qcow2
-      #     retention-days: 30
-      #     if-no-files-found: error
+      - uses: actions/upload-artifact@v3
+        with:
+          name: images
+          path: build/*.ova
+          retention-days: 30
+          if-no-files-found: error
 
   # lxd:
   #   needs: [get_latest_release]
