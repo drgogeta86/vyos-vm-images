@@ -56,7 +56,7 @@ jobs:
       - run: pipx install --include-deps ansible
       #- run: wget -q https://ovftool.ark-ict.nl/${OVFTOOL_INSTALLER}
       - run : wget -q https://ovftool.ark-ict.nl/VMware-ovftool-4.6.0-21452615-lin.x86_64.bundle
-      - run: sh  VMware-ovftool-4.6.0-21452615-lin.x86_64.bundle --eulas-agreed --required
+      - run: sudo sh  VMware-ovftool-4.6.0-21452615-lin.x86_64.bundle --eulas-agreed --required
       #ansible-playbook vmware.yml -e cloud_init=${{ matrix.cloud_init}} -e grub_console=${{ matrix.grub_console }} -e vyos_iso_url=${{ needs.get_latest_release.outputs.iso_url }}
       - run: |   
           ansible-playbook vmware.yml -e cloud_init=false -e ovf_template=simple  -e vyos_iso_url=${{ needs.get_latest_release.outputs.iso_url }}
