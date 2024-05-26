@@ -59,7 +59,7 @@ jobs:
       - run: sudo sh  VMware-ovftool-4.6.0-21452615-lin.x86_64.bundle --eulas-agreed --required
       #ansible-playbook vmware.yml -e cloud_init=${{ matrix.cloud_init}} -e grub_console=${{ matrix.grub_console }} -e vyos_iso_url=${{ needs.get_latest_release.outputs.iso_url }}
       - run: |   
-          ansible-playbook vmware.yml -e cloud_init=false -e ovf_template=simple  -e vyos_iso_url=${{ needs.get_latest_release.outputs.iso_url }}
+          ansible-playbook vmware.yml -e cloud_init=false -e ovf_template=simple  -e vyos_iso_url=${{ needs.get_latest_release.outputs.iso_url }} -e keep_user=true -e guest_agent=vmware
       - uses: actions/upload-artifact@v3
         with:
           name: images
@@ -73,15 +73,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        cloud_init: ['true', 'false']
-        grub_console: ['kvm', 'serial']
+        cloud_init: ['true']
+        grub_console: ['kvm']
     steps:
       - uses: actions/checkout@v4
         with:
           ref: actions
       - run: pipx install --include-deps ansible
       - run: |
-          ansible-playbook qemu.yml -e cloud_init=${{ matrix.cloud_init}} -e grub_console=${{ matrix.grub_console }} -e vyos_iso_url=${{ needs.get_latest_release.outputs.iso_url }}
+          ansible-playbook qemu.yml -e cloud_init=${{ matrix.cloud_init}} -e grub_console=${{ matrix.grub_console }} -e vyos_iso_url=${{ needs.get_latest_release.outputs.iso_url }} -e guest_agent=qemu -e cloud_init_ds=NoCloud,ConfigDrive,None -e keep_user=true
       - uses: actions/upload-artifact@v3
         with:
           name: images
